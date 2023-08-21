@@ -8,6 +8,7 @@ export const Data = createContext()
 
   const [ country, setCountry] = useState(null)
   const [ city, setCity] = useState(null)
+  const [ weatherData, setWeatherData] = useState(null)
 
   const saveClientData = (country, city) => {
     if (country && city) {
@@ -18,8 +19,13 @@ export const Data = createContext()
     }
 }
 
+  const savingData = (data) => {
+    setWeatherData(data)
+    return weatherData
+  }
+
   return (
-    <Data.Provider value = {{ country, city, saveClientData }}>
+    <Data.Provider value = {{ country, city, saveClientData, savingData, weatherData}}>
         {children}
     </Data.Provider>
   )

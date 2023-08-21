@@ -1,18 +1,28 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Data } from '../Context/DataProvider';
-import SearchDate from './SearchDate';
 import SearchError from "./searchError";
-
-
+import Cloudy from "./Cluody";
+import Sunny from "./Sunny";
+import Rain from "./Rain";
 
 function SearchConteiner () {
-    const { country, city } = useContext(Data) 
+
+    const { country, city, savingData, weatherData } = useContext(Data) 
 
     const API_KEY = "c8f9018bf55fa80e75020675311d9d56"
 
-    const [weatherData, setWeatherData] = useState(null);
     const [day, setDay] = useState(null);
     const [error, setNewError] = useState(null);
+    const [ description, setDescription ] = useState(null)
+
+    const cloudKeywords = ["nubes", "nublado", "parcialmente nublado", "algo nublado"];
+    const isCloudy = cloudKeywords.some(keyword => description && description.includes(keyword));
+
+    const sunKeywords = ["cielo", "claro", "parcialmente claro", "algo claro", "soleado"];
+    const isSunny = sunKeywords.some(keyword => description && description.includes(keyword));
+
+    const rainKeywords = ["lluvia", "lluvioso", "parcialmente lluviendo", "lloviendo", "lluvias", "lluvias moderadas"];
+    const isRain = rainKeywords.some(keyword => description && description.includes(keyword));
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,7 +32,8 @@ function SearchConteiner () {
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
-                setWeatherData(data);
+                savingData(data)
+                setDescription(data.weather[0].description)
             } catch (error) {
                 setNewError(error);
             }
@@ -41,9 +52,13 @@ function SearchConteiner () {
     return (
         <div>
             {error ? (
-                <SearchError/>
-            ) : weatherData ? (
-                <SearchDate data={weatherData} day={day} />
+                <SearchError />
+            ) : isCloudy ? (
+                <Cloudy data={weatherData} day={day} />
+            ) : isSunny ? (
+                <Sunny data={weatherData} day={day} />
+            ) : isRain ? (
+                <Rain data={weatherData} day={day} description={description}/>  
             ) : (
                 <div className="loader">Loading...</div>
             )}

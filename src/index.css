@@ -122,13 +122,63 @@ h1 {
   z-index: -1;
 }
 
-.background-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .content-overlay {
   position: relative;
   z-index: 1;
+}
+
+@media (max-width: 320px) {
+  .logo {
+    width: 250px;
+    height: 250px;
+  }
+
+  p {
+    font-size: 12px;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 15px;
+  }
+
+  h4 {
+    font-size: 10px;
+  }
+
+  .logo-weather {
+    width: 50px;
+    height: 50px;
+  }
+
+  .conteiner-temp {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    gap: 5px !important;
+  }
+
+  .conteiner-weather {
+    display: grid !important;
+    grid-template-columns: repeat(2, 100px);
+    margin-top: 20px;
+  }
+
+  .location-conteiner {
+    margin-top: 60px;
+    align-items: flex-start !important;
+  }
+
+  .video {
+    width: 320px;
+    height: 300px;
+  }
+
 }
